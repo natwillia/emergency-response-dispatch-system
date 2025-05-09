@@ -45,7 +45,7 @@ package emergencydispatch;
             size++;
         }
 
-        // Method to dispatch the highest priority incident by removing and returning it
+        // Natasha: Method to dispatch the highest priority incident by removing and returning it
         public String dispatch() {
             if (head == null) {
                 throw new IllegalStateException("Priority Queue is empty!");
@@ -56,13 +56,18 @@ package emergencydispatch;
             return highestPriorityIncident;
         }
 
-        // Method to retrieve the element with the highest priority without removing it
+        // Link: Method to retrieve the element with the highest priority without removing it
         public int min() {
             if (head == null) {
                 throw new IllegalStateException("Priority Queue is empty!");
             }
             return head.value;
         }
+
+        // Biraj: Method to display all pending incidents sorted by urgency level
+        public void pendingIncidents() {
+        }
+
         //Method to return the number of entries
         public int size(){
             return size;
@@ -77,12 +82,12 @@ package emergencydispatch;
         public static void main(String[] args) {
             PQSortedLinkedList priorityQueue = new PQSortedLinkedList();
 
-            // Insert elements into the priority queue
-            priorityQueue.insert(10, 3);
-            priorityQueue.insert(15, 1);
-            priorityQueue.insert(20, 2);
-            priorityQueue.insert(30, 4);
-            priorityQueue.insert(50, 5);
+            // Natasha: Insert incidents into the priority queue
+            priorityQueue.insert("Fire in cafeteria", 3);
+            priorityQueue.insert("Active shooter", 1);
+            priorityQueue.insert("Stampede at concert", 2);
+            priorityQueue.insert("Nose bleed", 4);
+            priorityQueue.insert("Noise complaint", 5);
 
             System.out.println("Number of entries in the priority queue: " + priorityQueue.size());
 
@@ -90,11 +95,11 @@ package emergencydispatch;
             System.out.println("Element with highest priority (peek): " + priorityQueue.min());
 
             // Dequeue element based on priority
-            System.out.println("Element removed with highest priority: " + priorityQueue.removeMin());
+            System.out.println("Element removed with highest priority: " + priorityQueue.dispatch());
 
             System.out.println("Number of entries in the priority queue: " + priorityQueue.size());
 
-            System.out.println("Element removed with highest priority: " + priorityQueue.removeMin());
+            System.out.println("Element removed with highest priority: " + priorityQueue.dispatch());
         }
     }
 
