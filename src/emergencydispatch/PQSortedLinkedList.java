@@ -2,14 +2,14 @@ package emergencydispatch;
 
     // Definition for a node in the sorted linked list
     class PQNode {
-        String reportedIncident;    // String value
-        int urgencyLvl; // Key
+        String value;    // String value
+        int key; // Key
         PQNode next;
 
         // Constructor to create a new node
         public PQNode(String reportedIncident, int urgencyLvl) {
-            this.reportedIncident = reportedIncident;
-            this.urgencyLvl = urgencyLvl;
+            this.value = reportedIncident;
+            this.key = urgencyLvl;
             this.next = null;
         }
     }
@@ -25,17 +25,17 @@ package emergencydispatch;
         }
 
         // Method to insert an element into the priority queue
-        public void insert(int data, int priority) {
-            PQNode newNode = new PQNode(data, priority);
+        public void insert(String reportedIncident, int urgencyLvl) {
+            PQNode newNode = new PQNode(reportedIncident, urgencyLvl);
 
             // If the queue is empty or the new node has a higher priority than the head
-            if (head == null || head.key > priority) {
+            if (head == null || head.key > urgencyLvl) {
                 newNode.next = head;
                 head = newNode;
             } else {
                 // Traverse the list to find the correct position for the new node
                 PQNode current = head;
-                while (current.next != null && current.next.key <= priority) {
+                while (current.next != null && current.next.key <= urgencyLvl) {
                     current = current.next;
                 }
                 // Insert the new node at the correct position
@@ -45,15 +45,15 @@ package emergencydispatch;
             size++;
         }
 
-        // Method to remove and return the element with the highest priority
-        public int removeMin() {
+        // Method to dispatch the highest priority incident by removing and returning it
+        public String dispatch() {
             if (head == null) {
                 throw new IllegalStateException("Priority Queue is empty!");
             }
-            int highestPriorityData = head.value;
+            String highestPriorityIncident = head.value;
             head = head.next;  // Remove the head node
             size--;
-            return highestPriorityData;
+            return highestPriorityIncident;
         }
 
         // Method to retrieve the element with the highest priority without removing it
