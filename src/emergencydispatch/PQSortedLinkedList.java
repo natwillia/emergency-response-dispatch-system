@@ -2,14 +2,14 @@ package emergencydispatch;
 
     // Definition for a node in the sorted linked list
     class PQNode {
-        int value;
-        int key;
+        String reportedIncident;    // String value;
+        int urgencyLvl; // Key
         PQNode next;
 
         // Constructor to create a new node
-        public PQNode(int data, int priority) {
-            this.value = data;
-            this.key = priority;
+        public PQNode(String reportedIncident, int urgencyLvl) {
+            this.reportedIncident = reportedIncident;
+            this.urgencyLvl = urgencyLvl;
             this.next = null;
         }
     }
