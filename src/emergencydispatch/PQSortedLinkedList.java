@@ -2,7 +2,7 @@ package emergencydispatch;
 
     // Definition for a node in the sorted linked list
     class PQNode {
-        String reportedIncident;    // String value;
+        String reportedIncident;    // String value
         int urgencyLvl; // Key
         PQNode next;
 
