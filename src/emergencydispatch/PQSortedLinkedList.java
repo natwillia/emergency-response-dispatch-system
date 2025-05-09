@@ -45,6 +45,7 @@ package emergencydispatch;
             size++;
         }
 
+
         // Natasha: Method to dispatch the highest priority incident by removing and returning it
         public String dispatch() {
             if (head == null) {
