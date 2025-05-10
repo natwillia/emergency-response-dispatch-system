@@ -1,23 +1,24 @@
 package emergencydispatch;
 
     // Definition for a node in the sorted linked list
-    class PQNode {
-        String value;    // String value
-        int key; // Key
-        PQNode next;
+    class IncidentNode {
+        String reportedIncident;    // String value
+        int priority; // Key
+        IncidentNode next;
 
         // Constructor to create a new node
-        public PQNode(String reportedIncident, int urgencyLvl) {
-            this.value = reportedIncident;
-            this.key = urgencyLvl;
+        public IncidentNode(String reportedIncident, int priority) {
+            this.reportedIncident = reportedIncident;
+            this.priority = priority;
             this.next = null;
         }
     }
 
     // Priority Queue implementation using a sorted linked list
     public class PQSortedLinkedList {
-        private PQNode head;
+        private IncidentNode head;
         private int size;
+
         // Constructor to initialize the priority queue
         public PQSortedLinkedList() {
             head = null;
@@ -26,16 +27,16 @@ package emergencydispatch;
 
         // Method to insert an element into the priority queue
         public void insert(String reportedIncident, int urgencyLvl) {
-            PQNode newNode = new PQNode(reportedIncident, urgencyLvl);
+            IncidentNode newNode = new IncidentNode(reportedIncident, urgencyLvl);
 
             // If the queue is empty or the new node has a higher priority than the head
-            if (head == null || head.key > urgencyLvl) {
+            if (head == null || head.priority > urgencyLvl) {
                 newNode.next = head;
                 head = newNode;
             } else {
                 // Traverse the list to find the correct position for the new node
-                PQNode current = head;
-                while (current.next != null && current.next.key <= urgencyLvl) {
+                IncidentNode current = head;
+                while (current.next != null && current.next.priority <= urgencyLvl) {
                     current = current.next;
                 }
                 // Insert the new node at the correct position
@@ -45,31 +46,35 @@ package emergencydispatch;
             size++;
         }
 
-
         // Natasha: Method to dispatch the highest priority incident by removing and returning it
         public String dispatch() {
             if (head == null) {
                 throw new IllegalStateException("Priority Queue is empty!");
             }
-            String highestPriorityIncident = head.value;
+            String highestPriorityIncident = head.reportedIncident;
             head = head.next;  // Remove the head node
             size--;
             return highestPriorityIncident;
         }
 
         // Link: Method to retrieve the element with the highest priority without removing it
-        public int min() {
+        public int nextDispatch() {
             if (head == null) {
                 throw new IllegalStateException("Priority Queue is empty!");
             }
-            return head.value;
+            return head.value;  // Add your code here to fix this
         }
 
-        // Biraj: Method to display all pending incidents sorted by urgency level
+        // Biraj: Method to display all pending incidents sorted by priority
         public void pendingIncidents() {
+            if (head == null) {
+                throw new IllegalStateException("No pending incidents");
+            }
+            // Add code here to display pending incidents sorted by priority: start at the head of the priority queue
+
         }
 
-        //Method to return the number of entries
+        // Method to return the number of entries
         public int size(){
             return size;
         }
@@ -83,24 +88,42 @@ package emergencydispatch;
         public static void main(String[] args) {
             PQSortedLinkedList priorityQueue = new PQSortedLinkedList();
 
+            System.out.println("\n\t\t\t\t\t\t\t\t\t------ Emergency Response Dispatch System ------");
+
             // Natasha: Insert incidents into the priority queue
             priorityQueue.insert("Fire in cafeteria", 3);
-            priorityQueue.insert("Active shooter", 1);
+            priorityQueue.insert("Active shooter", 1);  // Highest Priority
             priorityQueue.insert("Stampede at concert", 2);
             priorityQueue.insert("Nose bleed", 4);
-            priorityQueue.insert("Noise complaint", 5);
+            priorityQueue.insert("Noise complaint", 5); // Lowest Priority
 
-            System.out.println("Number of entries in the priority queue: " + priorityQueue.size());
+            System.out.println("\nInitial number of entries in the priority queue: " + priorityQueue.size());
 
-            // Peek at the highest-priority element
-            System.out.println("Element with highest priority (peek): " + priorityQueue.min());
+            System.out.println();
 
-            // Dequeue element based on priority
-            System.out.println("Element removed with highest priority: " + priorityQueue.dispatch());
+            // Biraj: Display all pending incidents sorted by priority
+            priorityQueue.pendingIncidents();
 
-            System.out.println("Number of entries in the priority queue: " + priorityQueue.size());
+            // Link: Peek at the current highest-priority incident
+            System.out.println("Incident with highest priority (peek): " + priorityQueue.nextDispatch());
 
-            System.out.println("Element removed with highest priority: " + priorityQueue.dispatch());
+
+            // Natasha: Dequeue (remove) element based on priority
+            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
+            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
+            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
+            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
+            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
+
+            System.out.println();
+
+            // Natasha: Check if the priority queue is empty
+            if (priorityQueue.isEmpty()) {
+                System.out.println("All incidents have been dispatched, Priority Queue is now empty" );
+            } else {
+                System.out.println("There are still pending incidents");
+                priorityQueue.pendingIncidents();
+            }
         }
     }
 
