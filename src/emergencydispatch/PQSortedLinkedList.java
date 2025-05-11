@@ -3,12 +3,14 @@ import java.util.Scanner;
 
     // Definition for a node in the sorted linked list
     class IncidentNode {
-        String reportedIncident;    // String value
+        String reportedIncident;    // String value: type of  incident
         int priority; // Key
+        String serviceType;
         IncidentNode next;
 
         // Constructor to create a new node
-        public IncidentNode(String reportedIncident, int priority) {
+        public IncidentNode(String serviceType, String reportedIncident, int priority) {
+            this.serviceType = serviceType;
             this.reportedIncident = reportedIncident;
             this.priority = priority;
             this.next = null;
@@ -27,8 +29,8 @@ import java.util.Scanner;
         }
 
         // Method to insert an element into the priority queue
-        public void insert(String reportedIncident, int urgencyLvl) {
-            IncidentNode newNode = new IncidentNode(reportedIncident, urgencyLvl);
+        public void insert(String serviceType, String reportedIncident, int urgencyLvl) {
+            IncidentNode newNode = new IncidentNode(serviceType, reportedIncident, urgencyLvl);
 
             // If the queue is empty or the new node has a higher priority than the head
             if (head == null || head.priority > urgencyLvl) {
@@ -53,35 +55,45 @@ import java.util.Scanner;
                 throw new IllegalStateException("Priority Queue is empty!");
             }
             String highestPriorityIncident = head.reportedIncident;
+            int priority = head.priority;
+            String serviceType = head.serviceType;
+
             head = head.next;  // Remove the head node
             size--;
+
+            // Print dispatch information with priority level and type of service needed
+            System.out.println("Dispatching Incident: " + highestPriorityIncident +
+                    " | Priority Level: " + priority +
+                    " | Service Type: " + serviceType);
+
             return highestPriorityIncident;
         }
 
-        // Link: Method to retrieve the element with the highest priority without removing it
+        // Link: Method to retrieve the incident with the highest priority without removing it
         public int nextDispatch() {
             if (head == null) {
                 throw new IllegalStateException("Priority Queue is empty!");
-            }
-            return head.value;  // Add your code here to fix this
+        }
+                return head.value;  // Add your code here to fix this
         }
 
+        // Biraj: Method to display all pending incidents sorted by priority
         public void pendingIncidents() {
-            if(head == null){
+            if (head == null) {
                 throw new IllegalStateException("No pending incidents");
             }
             // Add code here to display pending incidents sorted by priority: start at the head of the priority queue
-
-            }
+        }
+        }
 
         // Method to return the number of entries
-        public int size(){
+        public int size() {
             return size;
         }
 
         // Method to check whether the priority queue is empty
-        public boolean isEmpty(){
-            return (size==0);
+        public boolean isEmpty() {
+            return (size == 0);
         }
 
         // Main method to demonstrate the priority queue
@@ -91,78 +103,77 @@ import java.util.Scanner;
 
             System.out.println("\n\t\t\t\t\t\t\t\t\t------ Emergency Response Dispatch System ------");
 
-            // Natasha: Insert incidents into the priority queue
-            priorityQueue.insert("Fire in cafeteria", 3);
-            priorityQueue.insert("Active shooter", 1);  // Highest Priority
-            priorityQueue.insert("Stampede at concert", 2);
-            priorityQueue.insert("Nose bleed", 4);
-            priorityQueue.insert("Noise complaint", 5); // Lowest Priority
+            // Insert incidents into the priority queue
+            priorityQueue.insert("Fire", "Fire in cafeteria", 3);   // Service: Fire
+            priorityQueue.insert("Police", "Active shooter", 1);      // Highest Priority; Service: Police
+            priorityQueue.insert("Medical", "Stampede at concert", 2);
+            priorityQueue.insert("Medical","Nose bleed", 4);          // Service: Medical
+            priorityQueue.insert("Police", "Noise complaint", 5);     // Lowest Priority
 
-            System.out.println("\nInitial number of entries in the priority queue: " + priorityQueue.size());
+            while (true) {
+                System.out.println("\n1. Report new incident");
+                System.out.println("2. Dispatch Current Highest Priority Incident");
+                System.out.println("3. Peek");
+                System.out.println("4. View Pending Incidents");
+                System.out.println("5. Display Queue Contents");
+                System.out.println("6. Exit");
+                System.out.println("\nEnter a numbered option: ");
 
-            // Give the user an option to input more incidents to the priority queue
-            System.out.println("\nDo you want to add more incidents? (y/n)");
-            String userInput = scanner.nextLine();
-
-            if (userInput.equalsIgnoreCase("y")) {
-                System.out.println("Enter the number of incidents to add: ");
-                int additionalIncidents = scanner.nextInt();
+                int option = scanner.nextInt();
                 scanner.nextLine();
 
-                for (int i = 0; i < additionalIncidents; i++) {
-                    System.out.println("Describe the incident to report: ");
+                // Natasha: Give the user an option to input more incidents to the priority queue
+                if (option == 1) {
+                    System.out.println("Enter service type (Fire, Medical, Police): ");
+                    String serviceType = scanner.nextLine();
+
+                    System.out.println("Incident Description: ");
                     String reportedIncident = scanner.nextLine();
 
-                    System.out.println("Enter the priority on a scale of (1 = highest, 5 = lowest: ");
+                    System.out.println("Enter the priority on a scale of (1 = highest, 5 = lowest): ");
                     int priority = scanner.nextInt();
                     scanner.nextLine();
 
-                    priorityQueue.insert(reportedIncident, priority);
+                    priorityQueue.insert(serviceType, reportedIncident, priority);
+                    System.out.println("Incident Report Complete!");
+                } else if (option == 2) {
+                    if (priorityQueue.isEmpty()) {
+                        System.out.println("No incidents in the priority queue");
+                    } else {
+                        priorityQueue.dispatch();
+                    }
+                } else if (option == 3) {
+                    if (priorityQueue.isEmpty()) {
+                        System.out.println("No pending incidents");
+                    } else {
+                        System.out.println("Next Incident: " + priorityQueue.head.reportedIncident +
+                                " | Priority Level: " + priorityQueue.head.priority);
+                    }
+                } else if (option == 4) {
+                        priorityQueue.pendingIncidents();
+                } else if (option == 5) {
+                    if (priorityQueue.isEmpty()) {
+                        System.out.println("\nThere are currently no incidents in the priority queue.");
+                    } else {
+                        System.out.println("\nCurrent number of entries in the priority queue: " + priorityQueue.size());
+                        System.out.println("\nContents:");
+
+                        IncidentNode temp = priorityQueue.head;
+                        while (temp != null) {
+                            System.out.print("[" + temp.reportedIncident + " | Priority: " + temp.priority + "]");
+                            if (temp.next != null) {
+                                System.out.print(" -> ");
+                            }
+
+                            temp = temp.next;
+                        }
+
+                        System.out.println();
+                    }
+                } else if (option == 6) {
+                    System.out.println("System Exited");
+                    break;
                 }
-            }
-
-            System.out.println();
-
-            // Natasha: Display the initial contents of the PQSortedLinkedList (including user additions if any)
-            System.out.println("Contents:");
-            IncidentNode temp = priorityQueue.head;
-            while (temp != null) {
-                System.out.print("[" + temp.reportedIncident + " | " + temp.priority + "]");
-                if (temp.next != null) {
-                    System.out.print(" -> ");
-                }
-                temp = temp.next;
-            }
-
-            System.out.println();
-            System.out.println();
-
-            // Biraj: Display all pending incidents sorted by priority
-            System.out.println("Pending Incidents: ");
-            priorityQueue.pendingIncidents();
-
-            // Link: Peek at the current highest-priority incident
-            System.out.println("Incident with highest priority (peek): " + priorityQueue.nextDispatch());
-
-            System.out.println();
-
-            // Natasha: Dequeue (remove) incidents based on priority
-            System.out.println("Dispatching Incidents: ");
-            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
-            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
-            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
-            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
-            System.out.println("Current incident dispatched with highest priority: " + priorityQueue.dispatch());
-
-            System.out.println();
-
-            // Natasha: Check if the priority queue is empty
-            if (priorityQueue.isEmpty()) {
-                System.out.println("All incidents have been dispatched, Priority Queue is now empty" );
-            } else {
-                System.out.println("There are still pending incidents");
-                priorityQueue.pendingIncidents();
             }
         }
     }
-
