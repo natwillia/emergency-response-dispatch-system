@@ -3,7 +3,7 @@ import java.util.Scanner;
 
     // Definition for a node in the sorted linked list
     class IncidentNode {
-        String reportedIncident;    // String value: type of  incident
+        String reportedIncident;    // String value: describes the incident
         int priority; // Key
         String serviceType;
         IncidentNode next;
