@@ -70,10 +70,9 @@ import java.util.Scanner;
             if(head == null){
                 throw new IllegalStateException("No pending incidents");
             }
-            // start at the head of the priority queue (element with the highest priority: 1)
+            // Add code here to display pending incidents sorted by priority: start at the head of the priority queue
 
             }
-
 
         // Method to return the number of entries
         public int size(){
