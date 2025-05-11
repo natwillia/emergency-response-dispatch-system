@@ -73,18 +73,26 @@ import java.util.Scanner;
         public int nextDispatch() {
             if (head == null) {
                 throw new IllegalStateException("Priority Queue is empty!");
+            }
+            return head.value;  // Add your code here to fix this
         }
-                return head.value;  // Add your code here to fix this
-
-            ]
-        
 
         // Biraj: Method to display all pending incidents sorted by priority
-        public void pendingIncidents() {
-        if (head == null) {
-            System.out.println("No pending incidents.");
-            return;
-        }
+            public void pendingIncidents() {
+                if (head == null) {
+                    System.out.println("No pending incidents.");
+                    return;
+                }
+
+                System.out.println("\nPending Incidents (sorted by priority):");
+                IncidentNode current = head;
+                while (current != null) {
+                    System.out.println("Incident: " + current.reportedIncident +
+                            " | Priority Level: " + current.priority +
+                            " | Service Type: " + current.serviceType);
+                    current = current.next;
+                }
+            }
 
         System.out.println("\nPending Incidents (sorted by priority):");
         IncidentNode current = head;
