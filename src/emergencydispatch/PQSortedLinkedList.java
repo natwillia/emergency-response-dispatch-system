@@ -29,17 +29,17 @@ public class PQSortedLinkedList {
     }
 
     // Method to insert an element into the priority queue
-    public void insert(String serviceType, String reportedIncident, int urgencyLvl) {
-        IncidentNode newNode = new IncidentNode(serviceType, reportedIncident, urgencyLvl);
+    public void insert(String serviceType, String reportedIncident, int priority) {
+        IncidentNode newNode = new IncidentNode(serviceType, reportedIncident, priority);
 
         // If the queue is empty or the new node has a higher priority than the head
-        if (head == null || head.priority > urgencyLvl) {
+        if (head == null || head.priority > priority) {
             newNode.next = head;
             head = newNode;
         } else {
             // Traverse the list to find the correct position for the new node
             IncidentNode current = head;
-            while (current.next != null && current.next.priority <= urgencyLvl) {
+            while (current.next != null && current.next.priority <= priority) {
                 current = current.next;
             }
             // Insert the new node at the correct position
