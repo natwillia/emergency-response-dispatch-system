@@ -1,13 +1,15 @@
-// Method to display all pending incidents sorted by urgency level
-public void displayAllIncidents() {
-    if (isEmpty()) {
-        System.out.println("No pending incidents.");
-        return;
+public void pendingIncidents() {
+        if (head == null) {
+            System.out.println("No pending incidents.");
+            return;
+        }
+
+        System.out.println("\nPending Incidents (sorted by priority):");
+        IncidentNode current = head;
+        while (current != null) {
+            System.out.println("Incident: " + current.reportedIncident +
+                               " | Priority Level: " + current.priority +
+                               " | Service Type: " + current.serviceType);
+            current = current.next;
+        }
     }
-    System.out.println("Pending incidents (sorted by urgency level):");
-    PQNode current = head;
-    while (current != null) {
-        System.out.println("Incident: " + current.value + ", Urgency Level: " + current.key);
-        current = current.next;
-    }
-}
